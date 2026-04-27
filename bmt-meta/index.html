@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta-Analysis — AI Content That Sells, Mapped to BuildMyTribe</title>
+<style>
+  :root {
+    --bg: #0d1117; --bg2: #161b22; --bg3: #1c2128;
+    --border: #30363d; --border-light: #21262d;
+    --text: #c9d1d9; --text-dim: #8b949e; --text-muted: #484f58;
+    --blue: #58a6ff; --purple: #d2a8ff; --orange: #f0883e;
+    --green: #3fb950; --red: #f85149; --yellow: #e3b341; --pink: #f778ba;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; }
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--blue), var(--purple)); z-index: 1000; width: 0%; transition: width 0.15s; }
+  nav {
+    position: fixed; top: 3px; left: 0; right: 0; z-index: 999;
+    background: rgba(13,17,23,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 8px 16px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 4px 14px; font-size: 0.78em; color: var(--text-dim); white-space: nowrap;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  nav a:hover, nav a.active { background: rgba(31,111,235,0.3); color: #fff; border-color: var(--blue); }
+  .content { max-width: 780px; margin: 0 auto; padding: 70px 20px 60px; }
+  .hero { text-align: center; padding: 30px 0 14px; }
+  .hero h1 { color: var(--purple); font-size: clamp(1.6em, 4.6vw, 2.1em); margin-bottom: 10px; line-height: 1.25; }
+  .hero .tag { color: var(--text-dim); font-size: 0.95em; max-width: 580px; margin: 0 auto 16px; }
+  .hero .meta { display: inline-block; background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 14px; font-size: 0.78em; color: var(--text-dim); }
+
+  .section { margin-bottom: 38px; }
+  .section h2 { color: var(--blue); font-size: 1.2em; padding: 10px 0 8px; border-bottom: 2px solid var(--border-light); margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
+  .section h2 .icon { font-size: 1.3em; }
+
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; }
+  .card .label { font-weight: 700; font-size: 0.95em; margin-bottom: 6px; }
+  .card p { margin-bottom: 8px; font-size: 0.93em; }
+  .card p:last-child { margin-bottom: 0; }
+  .hl { color: var(--orange); font-weight: 600; }
+  .hl-green { color: var(--green); font-weight: 600; }
+  .hl-blue { color: var(--blue); font-weight: 600; }
+  .hl-purple { color: var(--purple); font-weight: 600; }
+  .hl-pink { color: var(--pink); font-weight: 600; }
+
+  .map-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin: 12px 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  @media (max-width: 700px) { .map-row { grid-template-columns: 1fr; } }
+  .map-cell { padding: 14px 16px; background: var(--bg2); border-right: 1px solid var(--border); }
+  .map-cell:last-child { border-right: none; }
+  @media (max-width: 700px) { .map-cell { border-right: none; border-bottom: 1px solid var(--border); } .map-cell:last-child { border-bottom: none; } }
+  .map-head { color: var(--text-muted); font-size: 0.72em; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; font-weight: 700; }
+  .map-cell.research .map-head { color: var(--blue); }
+  .map-cell.bmt .map-head { color: var(--green); }
+  .map-cell.action .map-head { color: var(--orange); }
+  .map-cell p { font-size: 0.88em; line-height: 1.55; }
+
+  .callout { background: rgba(63,185,80,0.07); border: 1px solid rgba(63,185,80,0.3); border-radius: 10px; padding: 14px 18px; margin: 14px 0; }
+  .callout-label { color: var(--green); font-weight: 700; font-size: 0.78em; text-transform: uppercase; letter-spacing: 1.4px; margin-bottom: 6px; }
+  .callout.warn { background: rgba(240,136,62,0.06); border-color: rgba(240,136,62,0.3); }
+  .callout.warn .callout-label { color: var(--orange); }
+  .callout.crit { background: rgba(248,81,73,0.06); border-color: rgba(248,81,73,0.3); }
+  .callout.crit .callout-label { color: var(--red); }
+
+  .tier { background: var(--bg2); border: 1px solid var(--border); border-left: 3px solid; border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+  .tier.t1 { border-left-color: var(--green); }
+  .tier.t2 { border-left-color: var(--blue); }
+  .tier.t3 { border-left-color: var(--purple); }
+  .tier .label { font-weight: 700; font-size: 0.9em; margin-bottom: 6px; }
+  .tier.t1 .label { color: var(--green); }
+  .tier.t2 .label { color: var(--blue); }
+  .tier.t3 .label { color: var(--purple); }
+  .tier ul { margin: 6px 0 0 18px; }
+  .tier li { font-size: 0.9em; margin-bottom: 4px; }
+
+  blockquote { border-left: 3px solid var(--orange); padding: 8px 16px; margin: 14px 0; background: rgba(240,136,62,0.05); border-radius: 0 8px 8px 0; color: var(--text-dim); font-style: italic; font-size: 0.92em; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  p { margin-bottom: 10px; font-size: 0.93em; }
+  .footer { color: var(--text-muted); font-size: 0.78em; margin-top: 36px; text-align: center; border-top: 1px solid var(--border-light); padding-top: 14px; }
+
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.4s, transform 0.4s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
+  @media (max-width: 600px) { .stat-grid { grid-template-columns: 1fr; } }
+  .stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat-num { color: var(--purple); font-size: 1.5em; font-weight: 800; }
+  .stat-label { color: var(--text-dim); font-size: 0.78em; margin-top: 4px; line-height: 1.3; }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav>
+  <a href="#tldr" data-s="tldr">TL;DR</a>
+  <a href="#thesis" data-s="thesis">Thesis</a>
+  <a href="#mapping" data-s="mapping">The Mapping</a>
+  <a href="#moats" data-s="moats">BMT's Moats</a>
+  <a href="#offer" data-s="offer">New Offer Stack</a>
+  <a href="#playbook" data-s="playbook">Playbook</a>
+  <a href="#risks" data-s="risks">Risks</a>
+</nav>
+
+<div class="content">
+
+<div class="hero">
+  <h1>BuildMyTribe × AI Content That Sells</h1>
+  <p class="tag">Meta-analysis: how the 2026 AI-content playbook maps to what BMT has already built — and where the leverage actually is.</p>
+  <span class="meta">🌿 Eden Meta-Analysis · April 27, 2026 · ~10 min read</span>
+</div>
+
+<div style="background:linear-gradient(135deg,rgba(210,168,255,0.12),rgba(88,166,255,0.08));border:1px solid rgba(210,168,255,0.35);border-radius:12px;padding:20px;margin:18px 0 24px;text-align:center">
+  <div style="color:var(--purple);font-weight:700;font-size:0.85em;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">🎙️ Listen — BMT Meta-Analysis</div>
+  <div style="color:var(--text-dim);font-size:0.88em;margin-bottom:14px">Two-host conversation walking through this entire meta-analysis (~12 min). Hit play and scroll along, or just listen.</div>
+  <audio controls preload="metadata" style="width:100%;max-width:500px;border-radius:8px">
+    <source src="bmt-meta-analysis-podcast.mp3" type="audio/mpeg">
+    Your browser doesn't support audio. <a href="bmt-meta-analysis-podcast.mp3">Download the MP3</a>.
+  </audio>
+  <div style="color:var(--text-muted);font-size:0.78em;margin-top:10px">Built on the source playbook: <a href="https://tobiasboscobrown.github.io/ai-content-sales/">AI Content That Actually Sells</a> (Eden, April 26)</div>
+</div>
+
+<!-- ═══ TL;DR ═══ -->
+<div class="section reveal" id="tldr">
+  <h2><span class="icon">⚡</span> TL;DR</h2>
+  <div class="callout">
+    <div class="callout-label">Bottom line</div>
+    <p style="margin:0">The Eden research describes a 2026 playbook that BMT is <span class="hl-green">already 70% of the way through building</span>. The Quick Pitch Studio you just shipped (Hamel, Cecilia) IS an AI SDR. The 388-video engine IS high-volume AI video testing. The CTA tracking infrastructure IS the analytics layer everyone else lacks. <span class="hl">What's missing is one service tier, one repositioning, and one productized SKU</span> — and BMT goes from "audience growth shop" to "the AI-content sales OS for SMBs."</p>
+  </div>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-num">70%</div><div class="stat-label">of the playbook BMT has already built</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">moves close the gap (GEO, productize, reposition)</div></div>
+    <div class="stat"><div class="stat-num">$500→$2K</div><div class="stat-label">price ceiling shift if all three land</div></div>
+  </div>
+</div>
+
+<!-- ═══ THESIS ═══ -->
+<div class="section reveal" id="thesis">
+  <h2><span class="icon">🎯</span> The Thesis</h2>
+  <p>The Eden research isn't telling BMT to pivot. It's telling BMT to <span class="hl-purple">stop selling the cheapest unit of work</span> (videos per month) and start selling the <span class="hl">expensive thing only BMT can deliver end-to-end</span>: an AI-content engine that generates discovery, runs personalized pitches, and reports tracked outcomes.</p>
+  <p>The current ROADMAP_V2 offer — <em>"30K+ monthly views in 60 days, guaranteed"</em> — is a great wedge offer. It's defensible (Kathy's data backs it). It's measurable. It closes deals. But it's <span class="hl">a feature, not a category</span>. Every month BMT runs that offer alone, the price ceiling stays at $1,200/mo because that's the going rate for "videos per month."</p>
+  <blockquote>The companies winning in 2026 aren't the ones making the best single video. They're the ones testing the most variations fastest, AND closing on the attention they generate.</blockquote>
+  <p>BMT is the only entity in this conversation that can credibly do <span class="hl-pink">both halves of that sentence</span>. The 90+ videos/month and the AI pitch outreach. The variant testing and the tracked CTA. The TOFU and the BOFU. That's the position to claim.</p>
+</div>
+
+<!-- ═══ THE MAPPING ═══ -->
+<div class="section reveal" id="mapping">
+  <h2><span class="icon">🗺️</span> The Mapping — Research Insight → BMT Reality → Move</h2>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>GEO (Generative Engine Optimization):</strong> Top Google ↔ AI citation overlap dropped to &lt;20%. Comparison content gets 32.5% of AI citations. 50% of cited content is &lt;13 weeks old.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p>Zero GEO offering. Engine produces 90+ short-form videos/month per client but no schema-marked comparison articles or Reddit/LinkedIn presence. Kathy's 31K views are 96.5% search-driven — already proves the GEO appetite.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Add <span class="hl-orange">GEO Layer</span> as +$500/mo on top of Audience Launch. Comparison articles + schema + Reddit cross-post. Use Eden to research and Claude to ship.</p>
+    </div>
+  </div>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>50+ video variants per launch:</strong> AI UGC tools generate dozens of creator-style ads in minutes. Algorithm picks winners. Conversion 2% → 10%+. First 3 seconds determine 71% of watch-or-scroll.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p>Already shipping 90+ videos/mo per client across 4 platforms. 388 videos lifetime. Multiple caption presets, codegen scenes, 12 brand voices, A/B-able by design. Just wasn't <em>positioned</em> as variant testing.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Reposition the deck. <span class="hl-orange">"BMT runs 90 hooks per month against your audience and lets the algorithm pick the winners."</span> Same product. New language. Higher perceived sophistication.</p>
+    </div>
+  </div>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>AI SDRs:</strong> 4-7x conversion vs. manual outreach, 70% cost reduction. Top tools (Amplemarket, 11x.ai, Artisan) charge $200-500/mo. They research → personalize → multi-touch → book.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p><span class="hl-green">Quick Pitch Studio = an AI SDR with video</span>. The Hamel and Cecilia pitches scrape brand context, write a personalized script, render a video with prospect's brand colors and niche, host a share page. None of the listed competitors have video. None.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Productize as <span class="hl-orange">"AI Pitch Studio"</span> standalone SKU. $99/pitch one-off, $499/mo for unlimited. Sell to founders who need to break into 50 specific accounts. New revenue channel, zero engine cost.</p>
+    </div>
+  </div>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>The new funnel:</strong> AI Discovery → AI-Personalized Landing → Automated Engagement. Companies with all three see 10-20% higher ROI, 78% faster decisions.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p>Has Stage 1 (videos for AI/algorithm discovery) and Stage 3 (pitch share pages with tracked CTAs). Missing Stage 2: the personalized landing page that adapts to traffic source / prospect.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Add personalization to <code>/pitch/{slug}</code> pages — read prospect brand, generate a custom hero, persist a per-prospect Whatnot-style storefront. Already 80% there because Quick Pitch already scrapes brand.</p>
+    </div>
+  </div>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>AIContentPad case:</strong> 30% more content at 62% less cost, engagement doubled. Personalization ROI: 2.7x. AI customer service: $3.50 per $1.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p>This is literally what the engine does. 388 videos with one operator. The numbers ARE the BMT pitch — they just aren't on the landing page yet.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Land the page on these stats. Replace generic "audience growth" copy with <span class="hl-orange">"30% more content at 62% less cost — measured, like AIContentPad"</span>.</p>
+    </div>
+  </div>
+
+  <div class="map-row">
+    <div class="map-cell research"><div class="map-head">Research</div>
+      <p><strong>Native &gt; polished:</strong> Unpolished UGC beats studio quality. Gap's raw creator campaign hit 400M views in 3 days. AI tools designed for native aesthetic at scale.</p>
+    </div>
+    <div class="map-cell bmt"><div class="map-head">BMT today</div>
+      <p>Production is mid-polished slideshow. Captions are karaoke-style. Rendered with Remotion. Looks pro, sometimes too pro for native algorithms.</p>
+    </div>
+    <div class="map-cell action"><div class="map-head">Move</div>
+      <p>Add a <span class="hl-orange">"Native Mode"</span> caption preset and orchestration profile that intentionally roughs the edges — 9:16 phone-style framing, slightly wobbly text, talking-head feel. A/B against current polished output, let the data pick.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MOATS ═══ -->
+<div class="section reveal" id="moats">
+  <h2><span class="icon">🏰</span> What BMT Has That No Competitor Has</h2>
+  <div class="card">
+    <div class="label" style="color:var(--green)">1. Tracked CTAs at the platform level</div>
+    <p>Per-platform tracking links with bot-vs-human filtering, geo + device breakdown, click demographics. Most "AI video" tools dump an MP4 and call it done. <span class="hl-green">BMT measures whether the video moved a human.</span> This is the single biggest differentiator and it's already shipped.</p>
+  </div>
+  <div class="card">
+    <div class="label" style="color:var(--green)">2. End-to-end pipeline ownership</div>
+    <p>Script generation, TTS, codegen scenes, captions, assembly, captions burn-in, scheduling, upload, and analytics — all in one repo. Competitors stitch 6 SaaS tools together and lose data at every seam.</p>
+  </div>
+  <div class="card">
+    <div class="label" style="color:var(--purple)">3. Pitch-video personalization at scale</div>
+    <p>The Quick Pitch Studio scrapes a prospect's website, extracts brand colors and niche vocabulary, picks a voice, writes a personalized hook, and renders a 30-second pitch with their colors and a custom CTA. <span class="hl-purple">Nobody listed in the AI SDR section of the research has this.</span> Amplemarket sends emails. 11x.ai sends emails. Artisan sends emails. BMT sends a video addressed by name.</p>
+  </div>
+  <div class="card">
+    <div class="label" style="color:var(--blue)">4. Real client outcome data</div>
+    <p>Kathy Brown: 31,384 YouTube views in 28 days, search-driven, fully attributed. Royal Sparkle Creations Case Study PDF already exists in the repo. <span class="hl-blue">This is the proof asset that converts cold traffic.</span></p>
+  </div>
+  <div class="card">
+    <div class="label" style="color:var(--orange)">5. The operator-of-one cost structure</div>
+    <p>One operator running 388 videos across 5 clients = a margin profile competitors can't match without burning cash on humans. The engine is the leverage. Every new client adds revenue without adding headcount.</p>
+  </div>
+</div>
+
+<!-- ═══ OFFER STACK ═══ -->
+<div class="section reveal" id="offer">
+  <h2><span class="icon">💰</span> The New Offer Stack</h2>
+  <p>The current single-tier "Audience Launch ($1,500) + Audience Growth retainer ($1,200/mo)" structure works for the wedge. But the research suggests three more SKUs that lift the price ceiling and capture different buyer types.</p>
+
+  <div class="card" style="border-left: 3px solid var(--green)">
+    <div class="label" style="color:var(--green)">SKU A — AI Pitch Studio (new, productized)</div>
+    <p><strong>$99/pitch · $499/mo unlimited.</strong> One-off or subscription. Founders point us at 5-50 prospects, we ship a personalized pitch video for each, hosted on a /pitch/{slug} share page with tracked CTAs. Buyer = early-stage founders, agency BDs, fundraising teams. Time-to-value: 1 day.</p>
+  </div>
+
+  <div class="card" style="border-left: 3px solid var(--blue)">
+    <div class="label" style="color:var(--blue)">SKU B — Audience Launch + GEO (upgrade)</div>
+    <p><strong>$2,000 flat · $1,500/mo retainer.</strong> The V2 audience growth offer plus the new GEO Layer: 4 comparison articles/month, schema-marked, cross-posted to Reddit/LinkedIn, Eden-researched. Buyer = SMBs who want to be cited by ChatGPT, not just seen on TikTok.</p>
+  </div>
+
+  <div class="card" style="border-left: 3px solid var(--purple)">
+    <div class="label" style="color:var(--purple)">SKU C — Tribe OS (full stack)</div>
+    <p><strong>$3,500/mo.</strong> Audience Launch + GEO + AI Pitch Studio + dedicated dashboard with weekly review. The "AI Marketing OS" pitch from the research, applied. Buyer = $1M+ revenue businesses who want to consolidate 6 tools into one operator. Sell 3 of these and BMT is at $10K MRR with one operator.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">The pricing logic</div>
+    <p style="margin:0">SKU A captures founders who'd never pay $1,500 for content but will pay $99 for a hand-tailored pitch to land Hamel. SKU B raises the ACV of existing buyers by ~$500/mo for ~10% more work. SKU C is the category claim — the only product on the market that does TOFU video + GEO + BOFU pitch in one engine. <span class="hl">Even one Tribe OS client funds 3 weeks of operator runway.</span></p>
+  </div>
+</div>
+
+<!-- ═══ PLAYBOOK ═══ -->
+<div class="section reveal" id="playbook">
+  <h2><span class="icon">📋</span> The 90-Day Playbook</h2>
+
+  <div class="tier t1">
+    <div class="label">Tier 1 · This Week (Apr 27 – May 3) — Free moves</div>
+    <ul>
+      <li>Send the 8 regenerated Hamel + Cecilia pitch videos. They're protected from cleanup now. <span class="hl-green">First real test of Quick Pitch as outbound channel.</span></li>
+      <li>Update <code>buildmytribe.io</code> hero copy with the AIContentPad framing: "30% more content at 62% less cost, measured."</li>
+      <li>Add a <code>/pitch-studio</code> public page describing SKU A. Stripe link for $99/pitch. Even if no one buys, it's a conversation starter in DMs.</li>
+      <li>Wire YouTube tracking link on Kathy's channel (still outstanding from V2 — this is the case study unlock).</li>
+    </ul>
+  </div>
+
+  <div class="tier t2">
+    <div class="label">Tier 2 · This Month (Apr 27 – May 24) — Productize</div>
+    <ul>
+      <li>Ship the GEO Layer: pick 1 client (Kathy or Build My Tribe itself), generate 4 comparison articles, schema-mark, cross-post to Reddit + LinkedIn. Track AI citation appearance over 30 days.</li>
+      <li>Add Native Mode caption preset + orchestration profile. A/B against current Karaoke Pro on 30 videos. Pick the winner.</li>
+      <li>Build the personalized landing for /pitch/{slug}: hero adapts to prospect brand, "videos like this for you" carousel of past examples.</li>
+      <li>Convert Kathy from free to paid using the V2 case-study reframe. <span class="hl-green">First paid dollar.</span></li>
+    </ul>
+  </div>
+
+  <div class="tier t3">
+    <div class="label">Tier 3 · This Quarter (May – July) — Claim the category</div>
+    <ul>
+      <li>Launch SKU C (Tribe OS) publicly. One landing page, one demo video, one case study (Kathy + 1 more).</li>
+      <li>Build the unified dashboard: TOFU video stats + GEO citation tracking + Pitch Studio outcomes in one view. <span class="hl-purple">This is the moat made visible.</span></li>
+      <li>Position publicly: "The AI Marketing OS for SMBs." Stop competing with content shops. Compete with HubSpot, but for businesses too small to afford HubSpot.</li>
+      <li>3 Tribe OS clients × $3,500/mo = $10,500 MRR with one operator. Engine handles delivery; operator handles strategy and the high-value relationships only.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══ RISKS ═══ -->
+<div class="section reveal" id="risks">
+  <h2><span class="icon">⚠️</span> Risks &amp; Sustainability Filter</h2>
+
+  <div class="callout warn">
+    <div class="callout-label">Rubber-banding risk</div>
+    <p style="margin:0">3 SKUs at once is more surface than one operator can cleanly maintain. <span class="hl">Do not launch all three in week 1.</span> Sequence: SKU A this week (smallest, productized), SKU B in week 3, SKU C in month 2 once SKU A has at least one paying customer. Each one validates the next.</p>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-label">Engine state check</div>
+    <p style="margin:0">The pitch video sweep bug we just fixed today shows the engine still has rough edges that will surface under SKU A volume. Before broadcasting SKU A, run 5 internal pitch jobs and watch for failure modes. Add monitoring on <code>output_video_path</code> 404s — that's the new SLA-relevant metric.</p>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">What's automatically de-prioritized</div>
+    <p style="margin:0">Twitch pipeline, mass new-client cold outreach, and any "build a new feature" work that isn't in the 90-day playbook above. The research is clear: <span class="hl-green">winning in 2026 isn't about more features, it's about positioning the features you already shipped at 10x the price.</span></p>
+  </div>
+
+  <div class="callout crit">
+    <div class="callout-label">The thing that could kill this</div>
+    <p style="margin:0">If Hamel and Cecilia (and the other 18 prospects in the warm list) don't engage with the regenerated pitch videos, the SKU A thesis is wrong and we should kill it before building infrastructure around it. <span class="hl">First 7 days of pitch send data is the validation gate.</span> If reply rate &lt;5%, iterate the script not the SKU. If reply rate &lt;1%, pause SKU A and stay focused on V2 audience growth offer.</p>
+  </div>
+</div>
+
+<div class="callout" style="border-color: var(--purple); margin-top: 30px;">
+  <div class="callout-label" style="color:var(--purple)">Bottom-bottom line</div>
+  <p style="margin:0">BMT didn't need this research to know what to build — it had already built it. <span class="hl-purple">What it needed was language and pricing to match what was on the shelf.</span> The Eden playbook is that language. Use it. Update the deck. Send the pitches. See who bites.</p>
+</div>
+
+<div class="footer">
+  🌿 Eden Meta-Analysis &middot; April 27, 2026<br>
+  Source research: <a href="https://tobiasboscobrown.github.io/ai-content-sales/">AI Content That Actually Sells</a> · BMT roadmap context: ROADMAP_FIRST_CLIENT, ROADMAP_V2_GROUNDED, BMT_BETA_FOUNDING_LAUNCH<br>
+  Sustainability check: 3-SKU sequence, no rubber-band, engine state respected.
+</div>
+
+</div>
+
+<script>
+const pb = document.getElementById('progress');
+window.addEventListener('scroll', () => { pb.style.width = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%'; });
+const sections = document.querySelectorAll('.section');
+const pills = document.querySelectorAll('nav a');
+const obs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) pills.forEach(p => p.classList.toggle('active', p.dataset.s === e.target.id)); }); }, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => obs.observe(s));
+const revObs = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+</script>
+</body>
+</html>
+                          
