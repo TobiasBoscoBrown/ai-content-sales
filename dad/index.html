@@ -88,7 +88,7 @@
       You already own the Cloudflare account that runs <code>buildmytribe.io</code> (it's the same login you use for <code>yardbids.com</code>). That means
       <strong>you have full admin rights on this</strong>, no permission walls, no waiting on me.
     </p>
-    <p class="mini" style="margin-top:8px">Have your Cloudflare login and your Gmail open in two tabs and you're set.</p>
+    <p class="mini" style="margin-top:8px">Have two tabs open: Cloudflare in one, <code>1john3.14@gmail.com</code> in the other. That's the Gmail we're going to forward into and send from.</p>
   </div>
 
   <hr/>
@@ -111,9 +111,13 @@
     <div class="num">2</div>
     <div>
       <h3>Add your Gmail as a "Destination Address"</h3>
-      <p>Find the section called <strong>Destination addresses</strong> (it might be under a "Routes" tab). Click <strong>Add destination address</strong> and type the Gmail you actually check every day.</p>
+      <p>Find the section called <strong>Destination addresses</strong> (it might be under a "Routes" tab). Click <strong>Add destination address</strong> and type:</p>
+      <div class="card" style="margin:8px 0">
+        <div class="mini">Destination Gmail</div>
+        <div style="font-size:20px;font-weight:700;color:#a78bfa">1john3.14@gmail.com</div>
+      </div>
       <div class="quote">
-        Cloudflare will send a verification email to that Gmail. Open it, click the big <strong>Verify</strong> button, and you'll get bounced back to Cloudflare. The destination flips to green.
+        Cloudflare will send a verification email to <code>1john3.14@gmail.com</code>. Open it, click the big <strong>Verify</strong> button, and you'll get bounced back to Cloudflare. The destination flips to green.
       </div>
       <p class="mini">If the verification email isn't there in 30 seconds, peek in Spam and Promotions. That's where it usually hides.</p>
     </div>
@@ -132,10 +136,10 @@
         <div class="card" style="margin:0">
           <div class="mini">Action</div>
           <div style="font-size:18px;font-weight:600">Send to an email</div>
-          <div class="mini" style="margin-top:6px">Pick the Gmail you just verified.</div>
+          <div class="mini" style="margin-top:6px">Pick <code>1john3.14@gmail.com</code> from the dropdown.</div>
         </div>
       </div>
-      <p>Click <strong>Save</strong>. Quick test: from your phone, send a one-line email to <code>richard@buildmytribe.io</code> and watch it land in your Gmail. If it lands, Part 1 is done.</p>
+      <p>Click <strong>Save</strong>. Quick test: from your phone, send a one-line email to <code>richard@buildmytribe.io</code> and watch it land in <code>1john3.14@gmail.com</code>. If it lands, Part 1 is done.</p>
     </div>
   </div>
 
@@ -154,7 +158,7 @@
     <div class="num">1</div>
     <div>
       <h3>Generate a Google App Password</h3>
-      <p>Gmail won't let outside tools (or its own "Send mail as" feature) use your normal Gmail password. You need a one-time-use "App Password" instead. It's a 16-character code Google gives you.</p>
+      <p>Make sure you're signed into <code>1john3.14@gmail.com</code> first (top-right avatar in any Google tab). Then click the button. Gmail won't let outside tools use your normal Gmail password, so you need a one-time-use "App Password" instead. It's a 16-character code Google gives you.</p>
       <a class="btn" href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">Open Google App Passwords →</a>
       <ul class="mini">
         <li>If it asks you to turn on 2-Step Verification first, do that. It's required.</li>
@@ -168,7 +172,7 @@
     <div class="num">2</div>
     <div>
       <h3>Open Gmail's "Send mail as" settings</h3>
-      <p>In Gmail, click the gear icon (top right) → <strong>See all settings</strong> → <strong>Accounts and Import</strong> tab → next to "Send mail as", click <strong>Add another email address</strong>.</p>
+      <p>In <code>1john3.14@gmail.com</code>, click the gear icon (top right) → <strong>See all settings</strong> → <strong>Accounts and Import</strong> tab → next to "Send mail as", click <strong>Add another email address</strong>.</p>
     </div>
   </div>
 
@@ -181,16 +185,4 @@
           <div class="mini">Name</div>
           <div style="font-size:18px;font-weight:600">Richard Brown</div>
         </div>
-        <div class="card" style="margin:0">
-          <div class="mini">Email address</div>
-          <div style="font-size:18px;font-weight:600">richard@buildmytribe.io</div>
-        </div>
-      </div>
-      <p class="mini">Uncheck "Treat as alias" if you want it to feel like a fully separate identity. Click <strong>Next Step</strong>.</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="num">4</div>
-    <div>
-      <h3>SMTP setting
+        <div class="card
