@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Hi Dad — let's get you a real business email</title>
+<title>Hey Dad, let's get your richard@buildmytribe.io email set up</title>
 <meta name="robots" content="noindex,nofollow" />
 <style>
   :root{
@@ -30,6 +30,7 @@
   .mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:grid;place-items:center;font-weight:800;color:white}
   .brand{font-weight:700;letter-spacing:.2px}
   h1{font-size:34px;line-height:1.15;margin:14px 0 6px;letter-spacing:-.01em}
+  h2{font-size:22px;margin:28px 0 10px}
   .lede{color:var(--muted);font-size:17px;margin:0 0 26px}
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
   .step{display:flex;gap:14px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
@@ -42,6 +43,8 @@
   code,kbd{background:#0a1024;border:1px solid #1f2746;padding:2px 7px;border-radius:6px;color:#e6ecff;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
   .btn{display:inline-block;padding:11px 16px;border-radius:11px;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;font-weight:600;margin:8px 0}
   .btn:hover{text-decoration:none;filter:brightness(1.08)}
+  .btn-ghost{display:inline-block;padding:11px 16px;border-radius:11px;border:1px solid #3a4470;color:#cdd5f3;font-weight:600;margin:8px 0}
+  .btn-ghost:hover{text-decoration:none;border-color:#5a649c}
   .quote{border-left:3px solid var(--violet);padding:10px 14px;color:#cfd6ee;background:#0e1428;border-radius:0 10px 10px 0;margin:10px 0}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media (max-width:640px){.grid{grid-template-columns:1fr}}
@@ -51,6 +54,7 @@
   hr{border:none;border-top:1px solid var(--line);margin:30px 0}
   .footer{color:var(--muted);font-size:13px;text-align:center;margin-top:30px}
   .heart{color:#ff7aa2}
+  .section-tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#a78bfa;font-weight:700;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -61,122 +65,132 @@
     <div class="brand">BuildMyTribe · for Dad</div>
   </header>
 
-  <h1>Hey Dad, let's get you a real business email.</h1>
+  <h1>Hey Dad, let's get you <span style="color:#a78bfa">richard@buildmytribe.io</span> wired up.</h1>
   <p class="lede">
-    Something like <code>richard@yardbids.com</code> instead of a Gmail address.
-    It looks way more professional and it costs nothing. The whole thing takes about 5 minutes
-    and you already own everything you need (the yardbids.com domain on Cloudflare).
+    The goal: a real BuildMyTribe email at <code>richard@buildmytribe.io</code> that you can both
+    receive and send from, all from inside your normal Gmail. No new inbox to check, no apps to install,
+    no monthly cost. About 10 minutes total.
   </p>
 
   <div class="card">
     <span class="pill ok">FREE</span>
-    <span class="pill">5 minutes</span>
+    <span class="pill">~10 minutes</span>
     <span class="pill">No new accounts</span>
     <p style="margin:8px 0 0">
-      We're going to use a free Cloudflare feature called <strong>Email Routing</strong>. It takes any email sent to
-      <code>richard@yardbids.com</code> and forwards it into your existing Gmail inbox. You read it, reply to it,
-      and write new ones from a single place. Same Gmail you already use, just with a fancier address on the front.
+      Two halves to this. <strong>Part 1</strong> is on Cloudflare and gets you receiving mail at <code>richard@buildmytribe.io</code>.
+      <strong>Part 2</strong> is inside Gmail and lets you send from it too. Both are required for the full setup.
     </p>
   </div>
 
-  <h2 style="margin-top:34px">What you'll need handy</h2>
   <div class="card">
-    <ul>
-      <li>Your Cloudflare login (the one tied to <code>Rbrown@yardbids.com</code>).</li>
-      <li>The Gmail address you want emails forwarded to (whichever inbox you actually check).</li>
-      <li>About 5 minutes.</li>
-    </ul>
-    <p class="mini" style="margin-top:8px">Heads up: Cloudflare will send a one-click verification email to that Gmail to confirm it's really yours. Just keep that tab open.</p>
+    <div class="section-tag">Heads up before you start</div>
+    <p style="margin:6px 0 0">
+      You already own the Cloudflare account that runs <code>buildmytribe.io</code> (it's the same login you use for <code>yardbids.com</code>). That means
+      <strong>you have full admin rights on this</strong>, no permission walls, no waiting on me.
+    </p>
+    <p class="mini" style="margin-top:8px">Have your Cloudflare login and your Gmail open in two tabs and you're set.</p>
   </div>
 
   <hr/>
 
+  <h2>Part 1 · Receiving mail at richard@buildmytribe.io</h2>
+
   <div class="step">
     <div class="num">1</div>
     <div>
-      <h3>Open Cloudflare Email Routing</h3>
-      <p>Click the button below. If it asks you to log in, use your normal Cloudflare account.</p>
-      <a class="btn" href="https://dash.cloudflare.com/4f52c42d5f80a9baa71379a30a8d7a7e/yardbids.com/email/routing/overview" target="_blank" rel="noopener">
-        Open Email Routing for yardbids.com →
+      <h3>Open Cloudflare Email Routing for buildmytribe.io</h3>
+      <p>Click the button. If it asks you to log in, use your normal Cloudflare account.</p>
+      <a class="btn" href="https://dash.cloudflare.com/4f52c42d5f80a9baa71379a30a8d7a7e/buildmytribe.io/email/routing/routes" target="_blank" rel="noopener">
+        Open Email Routing for buildmytribe.io →
       </a>
-      <p class="mini">If that link doesn't drop you exactly on the right page, no problem: log into Cloudflare → click <strong>yardbids.com</strong> → in the left sidebar click <strong>Email</strong> → <strong>Email Routing</strong>.</p>
+      <p class="mini">If that link doesn't drop you exactly on the right page, no problem. Log into Cloudflare → click the <strong>buildmytribe.io</strong> domain → in the left sidebar click <strong>Email</strong> → <strong>Email Routing</strong>.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="num">2</div>
     <div>
-      <h3>Turn on Email Routing (if it's not already on)</h3>
-      <p>If you see a big <strong>Get started</strong> or <strong>Enable Email Routing</strong> button, click it. Cloudflare will offer to add the right DNS records for you automatically. <strong>Click "Add records and enable"</strong>. That's it for this step.</p>
-      <p class="mini">If it says it's already enabled, even better, skip ahead.</p>
+      <h3>Add your Gmail as a "Destination Address"</h3>
+      <p>Find the section called <strong>Destination addresses</strong> (it might be under a "Routes" tab). Click <strong>Add destination address</strong> and type the Gmail you actually check every day.</p>
+      <div class="quote">
+        Cloudflare will send a verification email to that Gmail. Open it, click the big <strong>Verify</strong> button, and you'll get bounced back to Cloudflare. The destination flips to green.
+      </div>
+      <p class="mini">If the verification email isn't there in 30 seconds, peek in Spam and Promotions. That's where it usually hides.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="num">3</div>
     <div>
-      <h3>Add your Gmail as a "Destination Address"</h3>
-      <p>Look for the section called <strong>Destination addresses</strong> (sometimes under a "Routes" or "Settings" tab). Click <strong>Add destination address</strong> and type the Gmail you actually check.</p>
-      <div class="quote">
-        Cloudflare will send a verification email to that Gmail. Open it. Click the <strong>Verify</strong> button. You'll get bounced back to Cloudflare and that destination will turn green / verified.
+      <h3>Create the richard@buildmytribe.io address</h3>
+      <p>Go to <strong>Custom addresses</strong> (or <strong>Routing rules</strong>). Click <strong>Create address</strong> and fill it in:</p>
+      <div class="grid">
+        <div class="card" style="margin:0">
+          <div class="mini">Custom address</div>
+          <div style="font-size:18px;font-weight:600">richard@buildmytribe.io</div>
+        </div>
+        <div class="card" style="margin:0">
+          <div class="mini">Action</div>
+          <div style="font-size:18px;font-weight:600">Send to an email</div>
+          <div class="mini" style="margin-top:6px">Pick the Gmail you just verified.</div>
+        </div>
       </div>
-      <p class="mini">This step is the one most people get stuck on. The verification email is sometimes in Spam or Promotions, so peek there if you don't see it after 30 seconds.</p>
+      <p>Click <strong>Save</strong>. Quick test: from your phone, send a one-line email to <code>richard@buildmytribe.io</code> and watch it land in your Gmail. If it lands, Part 1 is done.</p>
+    </div>
+  </div>
+
+  <hr/>
+
+  <h2>Part 2 · Sending <em>from</em> richard@buildmytribe.io inside Gmail</h2>
+
+  <div class="card">
+    <div class="section-tag">What this does</div>
+    <p style="margin:6px 0 0">
+      Right now you can receive at the new address. This part lets you click <strong>Compose</strong> in Gmail and pick <code>richard@buildmytribe.io</code> as the From line, so when you reply or write fresh emails, the recipient sees the BuildMyTribe address, not your personal Gmail.
+    </p>
+  </div>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h3>Generate a Google App Password</h3>
+      <p>Gmail won't let outside tools (or its own "Send mail as" feature) use your normal Gmail password. You need a one-time-use "App Password" instead. It's a 16-character code Google gives you.</p>
+      <a class="btn" href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">Open Google App Passwords →</a>
+      <ul class="mini">
+        <li>If it asks you to turn on 2-Step Verification first, do that. It's required.</li>
+        <li>Where it asks for an "app name", just type <code>BuildMyTribe email</code>.</li>
+        <li>Google will show you a 16-character password with spaces. Copy it. You won't see it again.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h3>Open Gmail's "Send mail as" settings</h3>
+      <p>In Gmail, click the gear icon (top right) → <strong>See all settings</strong> → <strong>Accounts and Import</strong> tab → next to "Send mail as", click <strong>Add another email address</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h3>Fill the form like this</h3>
+      <div class="grid">
+        <div class="card" style="margin:0">
+          <div class="mini">Name</div>
+          <div style="font-size:18px;font-weight:600">Richard Brown</div>
+        </div>
+        <div class="card" style="margin:0">
+          <div class="mini">Email address</div>
+          <div style="font-size:18px;font-weight:600">richard@buildmytribe.io</div>
+        </div>
+      </div>
+      <p class="mini">Uncheck "Treat as alias" if you want it to feel like a fully separate identity. Click <strong>Next Step</strong>.</p>
     </div>
   </div>
 
   <div class="step">
     <div class="num">4</div>
     <div>
-      <h3>Create your custom address</h3>
-      <p>Now go to <strong>Custom addresses</strong> (or <strong>Routing rules</strong>) and click <strong>Create address</strong>.</p>
-      <div class="grid">
-        <div class="card" style="margin:0">
-          <div class="mini">Custom address</div>
-          <div style="font-size:18px;font-weight:600">richard@yardbids.com</div>
-          <div class="mini" style="margin-top:6px">Pick whatever you like, <code>richard@</code>, <code>contact@</code>, <code>hello@</code>, your call.</div>
-        </div>
-        <div class="card" style="margin:0">
-          <div class="mini">Action</div>
-          <div style="font-size:18px;font-weight:600">Send to an email</div>
-          <div class="mini" style="margin-top:6px">Then pick the Gmail you just verified.</div>
-        </div>
-      </div>
-      <p>Click <strong>Save</strong>. You're done. Send yourself a test from your phone to <code>richard@yardbids.com</code> and watch it land in your Gmail.</p>
-    </div>
-  </div>
-
-  <hr/>
-
-  <h2 style="margin-top:0">Optional but nice: send <em>from</em> richard@yardbids.com too</h2>
-  <div class="card">
-    <p>The setup above means you can <strong>receive</strong> mail at <code>richard@yardbids.com</code>. To also <strong>send</strong> as that address from inside Gmail:</p>
-    <ol>
-      <li>In Gmail click the gear icon → <strong>See all settings</strong> → <strong>Accounts and Import</strong>.</li>
-      <li>Next to "Send mail as" click <strong>Add another email address</strong>.</li>
-      <li>Name: <code>Richard Brown</code>. Email: <code>richard@yardbids.com</code>. Uncheck "Treat as alias" if you want it to look fully separate.</li>
-      <li>For SMTP server, use <code>smtp.gmail.com</code>, port <code>587</code>, your Gmail address, and a <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener">Google App Password</a> (not your real Gmail password).</li>
-      <li>Gmail will send you a verification code to <code>richard@yardbids.com</code>. It'll arrive in your normal Gmail inbox (because of the routing you just set up). Type the code in. Done.</li>
-    </ol>
-    <p class="mini">If the App Password page asks for "App", pick <em>Mail</em>. If it asks for "Device", pick <em>Other</em> and type "yardbids". This is just so the password has a label.</p>
-  </div>
-
-  <hr/>
-
-  <h2 style="margin-top:0">If anything goes sideways</h2>
-  <div class="card">
-    <p>Just text or call me. Screenshot whatever Cloudflare is showing you and I'll walk you through it. The whole thing is reversible, you can't break anything.</p>
-    <p class="mini">Common gotchas:</p>
-    <ul class="mini">
-      <li><strong>Verification email never arrived</strong> → check Gmail's Spam and Promotions tabs.</li>
-      <li><strong>"Domain not enabled"</strong> → step 2 wasn't finished, go back and click Enable.</li>
-      <li><strong>"Destination not verified"</strong> → step 3 wasn't finished, click the Verify button in the Cloudflare email.</li>
-    </ul>
-  </div>
-
-  <p class="footer">
-    Made with <span class="heart">♥</span> by Toby. This page is just for you, Dad.
-  </p>
-
-</div>
-</body>
-</html>
+      <h3>SMTP setting
